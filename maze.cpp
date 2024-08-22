@@ -31,4 +31,10 @@ class Maze {
                 cout << endl;
             }
         }
+
+        void walk(int x, int y) {
+            this->matrix[y][x].hasBeenWalked = true;
+            print();
+            cout << endl;
+        }
 };
