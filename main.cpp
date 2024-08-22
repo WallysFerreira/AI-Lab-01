@@ -14,5 +14,15 @@ int main(void) {
 
     Maze maze = Maze(input);
     maze.print();
+
+    int x, y;
+
+    cout << "input x and y coodinates of start point" << endl;
+    cin >> x >> y;
+    maze.setStart(x, y);
+
+    cout << "input x and y coodinates of end point" << endl;
+    cin >> x >> y;
+    maze.setEnd(x, y);
 }
 

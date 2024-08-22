@@ -37,4 +37,16 @@ class Maze {
             print();
             cout << endl;
         }
+
+        void setStart(int x, int y) {
+            this->matrix[y][x].isStart = true;
+            print();
+            cout << endl;
+        }
+
+        void setEnd(int x, int y) {
+            this->matrix[y][x].isEnd = true;
+            print();
+            cout << endl;
+        }
 };
