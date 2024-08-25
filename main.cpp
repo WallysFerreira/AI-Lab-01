@@ -1,8 +1,20 @@
 #include <iostream>
 #include "maze.cpp"
-#include "tree.cpp"
+#include "node.cpp"
 
 using namespace std;
+
+Node* getFirstNode(Maze maze) {
+    for (int i = 0; i < MAX_ROWS; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            if (maze.matrix[i][j].isStart) {
+                return new Node(maze.matrix[i][j]);
+            }
+        }
+    }
+
+    return NULL;
+}
 
 int main(void) {
     int input[MAX_ROWS][MAX_COLS] = {
@@ -15,6 +27,7 @@ int main(void) {
 
     Maze maze = Maze(input);
     maze.print();
+    Node startNode;
 
     int x, y;
 
@@ -26,14 +39,13 @@ int main(void) {
     cin >> x >> y;
     maze.setEnd(x, y);
 
-    Tree tree = Tree(maze.matrix);
-    cout << tree.startNode.nextNodes.size() << endl << endl;
-    for (int i = 0; i < tree.startNode.nextNodes.size(); i++) {
-        cout << tree.startNode.nextNodes.at(i).x << ", " << tree.startNode.nextNodes.at(i).y << endl;
+    startNode = *getFirstNode(maze);
+
+    if (startNode.firstChild == NULL) {
+        cout << "No children" << endl;
     }
 
-    for (int i = 0; i < tree.startNode.nextNodes.at(0).nextNodes.size(); i++) {
-        cout << tree.startNode.nextNodes.at(0).nextNodes.at(i).x << ", " << tree.startNode.nextNodes.at(0).nextNodes.at(i).y << endl;
+    if (startNode.nextSibling == NULL) {
+        cout << "No siblings" << endl;
     }
 }
-
