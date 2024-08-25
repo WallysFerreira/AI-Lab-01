@@ -12,21 +12,21 @@ class Node {
 
         Node();
 
-        Node(MazePoint info);
+        Node(MazePoint info, Maze maze);
 
-        void addChild(Node child);
+        void addChild(Node *child);
 
-        void addSibling(Node sibling);
+        void addSibling(Node *sibling);
 
-        void findChildren(Maze maze);
+        void findChildren(Maze *maze);
 
-        void lookLeft(MazePoint matrix[MAX_ROWS][MAX_COLS]);
+        void lookLeft(Maze *maze);
 
-        void lookBelow(MazePoint matrix[MAX_ROWS][MAX_COLS]);
+        void lookBelow(Maze *maze);
 
-        void lookRight(MazePoint matrix[MAX_ROWS][MAX_COLS]);
+        void lookRight(Maze *maze);
 
-        void lookUp(MazePoint matrix[MAX_ROWS][MAX_COLS]);
+        void lookUp(Maze *maze);
 };
 
 #endif

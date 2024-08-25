@@ -12,6 +12,7 @@ class MazePoint {
         bool isStart;
         bool isEnd;
         bool hasBeenWalked = false;
+        bool hasBeenAddedToTree = false;
         Coordinates coords;
         
         MazePoint();

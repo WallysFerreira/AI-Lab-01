@@ -8,7 +8,8 @@ Node* getFirstNode(Maze maze) {
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {
             if (maze.matrix[i][j].isStart) {
-                return new Node(maze.matrix[i][j]);
+                maze.matrix[i][j].hasBeenAddedToTree = true;
+                return new Node(maze.matrix[i][j], maze);
             }
         }
     }
@@ -19,8 +20,8 @@ Node* getFirstNode(Maze maze) {
 int main(void) {
     int input[MAX_ROWS][MAX_COLS] = {
         {1, 1, 0, 1, 1},
-        {1, 0, 0, 1, 1},
-        {1, 0, 0, 0, 1},
+        {0, 0, 0, 1, 1},
+        {0, 1, 0, 0, 1},
         {1, 1, 1, 0, 1},
         {0, 0, 0, 0, 1}
     };
@@ -40,13 +41,11 @@ int main(void) {
     maze.setEnd(x, y);
 
     startNode = *getFirstNode(maze);
-
-    startNode.findChildren(maze);
+    // startNode.findChildren(&maze);
+    // startNode.firstChild->findChildren(&maze);
 
     if (startNode.firstChild == NULL) {
-        cout << "No children" << endl;
-    } else if (startNode.firstChild->nextSibling != NULL) {
-        cout << "Child has sibling" << endl;
+        cout << " No children" << endl;
     }
 
     if (startNode.nextSibling == NULL) {
