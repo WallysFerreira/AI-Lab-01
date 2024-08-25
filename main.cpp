@@ -41,8 +41,6 @@ int main(void) {
     maze.setEnd(x, y);
 
     startNode = *getFirstNode(maze);
-    // startNode.findChildren(&maze);
-    // startNode.firstChild->findChildren(&maze);
 
     if (startNode.firstChild == NULL) {
         cout << " No children" << endl;
