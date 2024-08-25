@@ -41,8 +41,12 @@ int main(void) {
 
     startNode = *getFirstNode(maze);
 
+    startNode.findChildren(maze);
+
     if (startNode.firstChild == NULL) {
         cout << "No children" << endl;
+    } else if (startNode.firstChild->nextSibling != NULL) {
+        cout << "Child has sibling" << endl;
     }
 
     if (startNode.nextSibling == NULL) {

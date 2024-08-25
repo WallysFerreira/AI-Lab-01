@@ -1,10 +1,8 @@
 #ifndef _maze_hpp_
 #define _maze_hpp_
 
+#include "constants.hpp"
 #include "mazepoint.hpp"
-
-#define MAX_ROWS 5
-#define MAX_COLS 5
 
 class Maze {
     public:

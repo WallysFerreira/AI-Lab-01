@@ -5,10 +5,11 @@ using namespace std;
 MazePoint::MazePoint() {
 }
 
-MazePoint::MazePoint(bool isWall, bool isStart, bool isEnd) {
+MazePoint::MazePoint(Coordinates coords, bool isWall, bool isStart, bool isEnd) {
     this->isWall = isWall;
     this->isStart = isStart;
     this->isEnd = isEnd;
+    this->coords = coords;
 }
 
 string MazePoint::toString() {

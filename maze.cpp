@@ -8,7 +8,8 @@ Maze::Maze(int mat[MAX_ROWS][MAX_COLS]) {
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0 ; j < MAX_COLS; j++) {
             bool isWall = mat[i][j] == 1;
-            MazePoint newMazePoint = MazePoint(isWall, false, false);
+            Coordinates coords = Coordinates(j, i);
+            MazePoint newMazePoint = MazePoint(coords, isWall, false, false);
 
             matrix[i][j] = newMazePoint;
         }

@@ -2,6 +2,8 @@
 #define _mazepoint_hpp_
 
 #include <string>
+#include "coordinates.cpp"
+
 using namespace std;
 
 class MazePoint {
@@ -10,10 +12,11 @@ class MazePoint {
         bool isStart;
         bool isEnd;
         bool hasBeenWalked = false;
+        Coordinates coords;
         
         MazePoint();
 
-        MazePoint(bool isWall, bool isStart, bool isEnd);
+        MazePoint(Coordinates coords, bool isWall, bool isStart, bool isEnd);
 
         string toString();
 };
