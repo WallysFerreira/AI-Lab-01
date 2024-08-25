@@ -17,10 +17,10 @@ string MazePoint::toString() {
         return "\u25A0\u25A0";
     } else if (isStart) {
         return "**";
-    } else if (isEnd) {
-        return "++";
     } else if (hasBeenWalked) {
         return "\033[22;33m\u25A0\u25A0\033[0m";
+    } else if (isEnd) {
+        return "++";
     } else {
         return "  ";
     }

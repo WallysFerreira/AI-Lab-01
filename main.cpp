@@ -17,11 +17,20 @@ Node* getFirstNode(Maze maze) {
     return NULL;
 }
 
+void breadthFirstSearch(Node *startNode, Maze *maze) {
+    startNode->info.hasBeenWalked = true;
+    maze->matrix[startNode->info.coords.y][startNode->info.coords.x].hasBeenWalked = true;
+
+    if (startNode->info.isEnd) {
+        return;
+    }
+}
+
 int main(void) {
     int input[MAX_ROWS][MAX_COLS] = {
         {1, 1, 0, 1, 1},
         {0, 0, 0, 1, 1},
-        {0, 1, 0, 0, 1},
+        {0, 1, 0, 0, 0},
         {1, 1, 1, 0, 1},
         {0, 0, 0, 0, 1}
     };
@@ -42,11 +51,7 @@ int main(void) {
 
     startNode = *getFirstNode(maze);
 
-    if (startNode.firstChild == NULL) {
-        cout << " No children" << endl;
-    }
-
-    if (startNode.nextSibling == NULL) {
-        cout << "No siblings" << endl;
-    }
+    //cout << breadthFirstSearch(&startNode, &maze) << endl;
+    breadthFirstSearch(&startNode, &maze);
+    maze.print();
 }
