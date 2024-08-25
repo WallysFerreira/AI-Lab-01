@@ -1,22 +1,16 @@
 # AI-Lab-01
-Problem solving with search
+Problem solving with searches.
 
 ## Checklist
-Needed:
-- [ ] Breadth-first search
-- [ ] Depth-first search
-- [ ] Greedy best-first search
-- [ ] A* search  
-<hr>
 
-- [ ] CLI
-<hr>
+### Needed:
+- [x] Generic tree
+- [x] User inputs maze start and maze end
+- [x] Parse maze to tree
+- [ ] Find maze end with breadth-first search
+- [ ] Find maze end with Depth-first search
+- [ ] Find maze end with Greedy best-first search
+- [ ] Find maze end with A* search  
 
-- [ ] Normal tree
-
-Nice to have:
-- [ ] GUI
-<hr>
-
-- [ ] No-returns tree
-
+### Nice-to-have:
+- [ ] User inputs maze path
