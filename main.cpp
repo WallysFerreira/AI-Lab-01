@@ -32,7 +32,7 @@ int countWalked(Maze maze) {
     return count - 1;
 }
 
-void breadthFirstSearch(Maze *maze, queue<Node *> queue) {
+void breadthFirstSearch(queue<Node *> queue, Maze *maze) {
     Node *currentNode = queue.front();
     queue.pop();
     currentNode->info.hasBeenWalked = true;
@@ -51,7 +51,38 @@ void breadthFirstSearch(Maze *maze, queue<Node *> queue) {
     }
 
     if (!queue.empty()) {
-        breadthFirstSearch(maze, queue);
+        breadthFirstSearch(queue, maze);
+    }
+}
+
+void depthFirstSearch(queue<Node *> childrenQueue, queue <Node *> siblingQueue, Maze *maze) {
+    Node *currentNode;
+
+    if (!childrenQueue.empty()) {
+        currentNode = childrenQueue.front();
+        childrenQueue.pop();
+    } else {
+        currentNode = siblingQueue.front();
+        siblingQueue.pop();
+    }
+
+    currentNode->info.hasBeenAddedToTree = true;
+    maze->matrix[currentNode->info.coords.y][currentNode->info.coords.x].hasBeenWalked = true;
+
+    if (currentNode->info.isEnd) {
+        return;
+    }
+
+    if (currentNode->firstChild != NULL) {
+        childrenQueue.push(currentNode->firstChild);
+    }
+
+    if (currentNode->nextSibling != NULL) {
+        siblingQueue.push(currentNode->nextSibling);
+    }
+
+    if (!childrenQueue.empty() || !siblingQueue.empty()) {
+        depthFirstSearch(childrenQueue, siblingQueue, maze);
     }
 }
 
@@ -68,7 +99,7 @@ int main(void) {
     Maze maze = Maze(input);
     maze.print();
     Node startNode;
-    queue<Node *> queue;
+    queue<Node *> mainQueue;
 
     int x, y;
 
@@ -80,15 +111,22 @@ int main(void) {
     cin >> x >> y;
     maze.setEnd(x, y);
 
+    startNode = *getFirstNode(maze);
+
     cout << "Choose your search algorithm\n1 - Breadth-First (Default)\n2- Depth-First\n3 - Greedy-First\n4 - A*" << endl;
     int choice = 1;
     cin >> choice;
 
     switch (choice) {
         case 1:
-            startNode = *getFirstNode(maze);
-            queue.push(&startNode);
-            breadthFirstSearch(&maze, queue);
+            mainQueue.push(&startNode);
+            breadthFirstSearch(mainQueue, &maze);
+            maze.print();
+            break;
+        case 2:
+            queue<Node *> secondaryQueue;
+            mainQueue.push(&startNode);
+            depthFirstSearch(mainQueue, secondaryQueue, &maze);
             maze.print();
             break;
     }
