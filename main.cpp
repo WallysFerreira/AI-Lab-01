@@ -2,6 +2,7 @@
 #include "maze.cpp"
 #include "node.cpp"
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -67,15 +68,15 @@ void breadthFirstSearch(queue<Node *> queue, Maze *maze) {
     }
 }
 
-void depthFirstSearch(queue<Node *> childrenQueue, queue <Node *> siblingQueue, Maze *maze) {
+void depthFirstSearch(queue<Node *> childrenQueue, stack<Node *> siblingStack, Maze *maze) {
     Node *currentNode;
 
     if (!childrenQueue.empty()) {
         currentNode = childrenQueue.front();
         childrenQueue.pop();
     } else {
-        currentNode = siblingQueue.front();
-        siblingQueue.pop();
+        currentNode = siblingStack.top();
+        siblingStack.pop();
     }
 
     currentNode->info.hasBeenAddedToTree = true;
@@ -90,11 +91,11 @@ void depthFirstSearch(queue<Node *> childrenQueue, queue <Node *> siblingQueue, 
     }
 
     if (currentNode->nextSibling != NULL) {
-        siblingQueue.push(currentNode->nextSibling);
+        siblingStack.push(currentNode->nextSibling);
     }
 
-    if (!childrenQueue.empty() || !siblingQueue.empty()) {
-        depthFirstSearch(childrenQueue, siblingQueue, maze);
+    if (!childrenQueue.empty() || !siblingStack.empty()) {
+        depthFirstSearch(childrenQueue, siblingStack, maze);
     }
 }
 
@@ -226,28 +227,29 @@ int main(void) {
     int choice = 1;
     cin >> choice;
 
-    queue<Node *> mainQueue;
-    queue<Node *> secondaryQueue;
+    queue<Node *> queue1;
+    queue<Node *> queue2;
+    stack<Node *> stack1;
 
     switch (choice) {
         case 1:
-            mainQueue.push(&startNode);
-            breadthFirstSearch(mainQueue, &maze);
+            queue1.push(&startNode);
+            breadthFirstSearch(queue1, &maze);
             maze.print();
             break;
         case 2:
-            mainQueue.push(&startNode);
-            depthFirstSearch(mainQueue, secondaryQueue, &maze);
+            queue1.push(&startNode);
+            depthFirstSearch(queue1, stack1, &maze);
             maze.print();
             break;
         case 3:
-            mainQueue.push(&startNode);
-            greedyFirstSearch(mainQueue, secondaryQueue, &maze, &endNode);
+            queue1.push(&startNode);
+            greedyFirstSearch(queue1, queue2, &maze, &endNode);
             maze.print();
             break;
         case 4:
-            mainQueue.push(&startNode);
-            aStarSearch(mainQueue, secondaryQueue, &maze, &endNode);
+            queue1.push(&startNode);
+            aStarSearch(queue1, queue2, &maze, &endNode);
             maze.print();
             break;
     }
