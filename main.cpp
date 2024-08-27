@@ -1,6 +1,7 @@
 #include <iostream>
 #include "maze.cpp"
 #include "node.cpp"
+#include <queue>
 
 using namespace std;
 
@@ -17,12 +18,29 @@ Node* getFirstNode(Maze maze) {
     return NULL;
 }
 
-void breadthFirstSearch(Node *startNode, Maze *maze) {
-    startNode->info.hasBeenWalked = true;
-    maze->matrix[startNode->info.coords.y][startNode->info.coords.x].hasBeenWalked = true;
+void breadthFirstSearch(Maze *maze, queue<Node *> queue) {
+    Node *currentNode = queue.front();
+    queue.pop();
+    currentNode->info.hasBeenWalked = true;
+    maze->matrix[currentNode->info.coords.y][currentNode->info.coords.x].hasBeenWalked = true;
 
-    if (startNode->info.isEnd) {
+    cout << "Analyzing: " << currentNode->info.coords.x << ", " << currentNode->info.coords.y << endl;
+
+    if (currentNode->info.isEnd) {
+        cout << currentNode->info.coords.x << ", " << currentNode->info.coords.y << "is the end" << endl;
         return;
+    }
+
+    if (currentNode->nextSibling != NULL) {
+        queue.push(currentNode->nextSibling);
+    } 
+
+    if (currentNode->firstChild != NULL) {
+        queue.push(currentNode->firstChild);
+    }
+
+    if (!queue.empty()) {
+        breadthFirstSearch(maze, queue);
     }
 }
 
@@ -38,6 +56,7 @@ int main(void) {
     Maze maze = Maze(input);
     maze.print();
     Node startNode;
+    queue<Node *> queue;
 
     int x, y;
 
@@ -50,8 +69,9 @@ int main(void) {
     maze.setEnd(x, y);
 
     startNode = *getFirstNode(maze);
+    queue.push(&startNode);
 
     //cout << breadthFirstSearch(&startNode, &maze) << endl;
-    breadthFirstSearch(&startNode, &maze);
+    breadthFirstSearch(&maze, queue);
     maze.print();
 }
