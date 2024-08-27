@@ -142,6 +142,61 @@ void greedyFirstSearch(queue<Node *> prioQueue, queue<Node *> queue, Maze *maze,
     }
 }
 
+void aStarSearch(queue<Node *> prioQueue, queue<Node *> queue, Maze *maze, Node *endNode) {
+    Node *currentNode;
+
+
+
+    if (!prioQueue.empty()) {
+        while (!prioQueue.empty() && prioQueue.front() == NULL) {
+            prioQueue.pop();
+        }
+
+        currentNode = prioQueue.front();
+        prioQueue.pop();
+    } else {
+        while (!queue.empty() && queue.front() == NULL) {
+            queue.pop();
+        }
+        currentNode = queue.front();
+        queue.pop();
+    }
+
+    currentNode->info.hasBeenAddedToTree = true;
+    maze->matrix[currentNode->info.coords.y][currentNode->info.coords.x].hasBeenWalked = true;
+
+    int distanceToNext = 1; // Cost to next is always 1 in this maze
+
+    if (currentNode->info.isEnd) {
+        return;
+    }
+
+    if (currentNode->firstChild != NULL) {
+        if (currentNode->firstChild->nextSibling != NULL) {
+            int distanceFromChildToEnd = maze->getManhattanDistance(currentNode->firstChild->info.coords, endNode->info.coords) + distanceToNext;
+            int distanceFromChildSiblingToEnd = maze->getManhattanDistance(currentNode->firstChild->nextSibling->info.coords, endNode->info.coords) + distanceToNext;
+
+            if (distanceFromChildToEnd <= distanceFromChildSiblingToEnd) {
+                prioQueue.push(currentNode->firstChild);
+                queue.push(currentNode->nextSibling);
+            }  else {
+                prioQueue.push(currentNode->firstChild->nextSibling);
+                queue.push(currentNode->firstChild);
+            }
+        } else {
+            prioQueue.push(currentNode->firstChild);
+        }
+    }
+
+    if (currentNode->nextSibling != NULL) {
+        queue.push(currentNode->nextSibling);
+    }
+
+    if (!prioQueue.empty() || !queue.empty()) {
+        aStarSearch(prioQueue, queue, maze, endNode);
+    }
+}
+
 int main(void) {
     int input[MAX_ROWS][MAX_COLS] = {
         {1, 1, 0, 1, 1},
@@ -188,6 +243,11 @@ int main(void) {
         case 3:
             mainQueue.push(&startNode);
             greedyFirstSearch(mainQueue, secondaryQueue, &maze, &endNode);
+            maze.print();
+            break;
+        case 4:
+            mainQueue.push(&startNode);
+            aStarSearch(mainQueue, secondaryQueue, &maze, &endNode);
             maze.print();
             break;
     }
