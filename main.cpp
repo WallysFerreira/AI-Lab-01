@@ -18,16 +18,27 @@ Node* getFirstNode(Maze maze) {
     return NULL;
 }
 
+int countWalked(Maze maze) {
+    int count = 0;
+
+    for (int i = 0; i < MAX_ROWS; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            if (maze.matrix[i][j].hasBeenWalked) {
+                count++;
+            }
+        }
+    }
+
+    return count - 1;
+}
+
 void breadthFirstSearch(Maze *maze, queue<Node *> queue) {
     Node *currentNode = queue.front();
     queue.pop();
     currentNode->info.hasBeenWalked = true;
     maze->matrix[currentNode->info.coords.y][currentNode->info.coords.x].hasBeenWalked = true;
 
-    cout << "Analyzing: " << currentNode->info.coords.x << ", " << currentNode->info.coords.y << endl;
-
     if (currentNode->info.isEnd) {
-        cout << currentNode->info.coords.x << ", " << currentNode->info.coords.y << "is the end" << endl;
         return;
     }
 
@@ -43,6 +54,7 @@ void breadthFirstSearch(Maze *maze, queue<Node *> queue) {
         breadthFirstSearch(maze, queue);
     }
 }
+
 
 int main(void) {
     int input[MAX_ROWS][MAX_COLS] = {
@@ -68,10 +80,18 @@ int main(void) {
     cin >> x >> y;
     maze.setEnd(x, y);
 
-    startNode = *getFirstNode(maze);
-    queue.push(&startNode);
+    cout << "Choose your search algorithm\n1 - Breadth-First (Default)\n2- Depth-First\n3 - Greedy-First\n4 - A*" << endl;
+    int choice = 1;
+    cin >> choice;
 
-    //cout << breadthFirstSearch(&startNode, &maze) << endl;
-    breadthFirstSearch(&maze, queue);
-    maze.print();
+    switch (choice) {
+        case 1:
+            startNode = *getFirstNode(maze);
+            queue.push(&startNode);
+            breadthFirstSearch(&maze, queue);
+            maze.print();
+            break;
+    }
+
+    cout << "Took " << countWalked(maze) << " steps" << endl;
 }
