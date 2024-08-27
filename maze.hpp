@@ -15,6 +15,9 @@ class Maze {
         void setStart(int x, int y);
         void setEnd(int x, int y);
 
+        int getManhattanDistance(Coordinates from, Coordinates to);
+        int getDistance(Coordinates from, Coordinates to);
+
 };
 
 #endif

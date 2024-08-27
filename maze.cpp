@@ -1,5 +1,6 @@
 #include "maze.hpp"
 #include "mazepoint.cpp"
+#include <math.h>
 #include <iostream>
 
 using namespace std;
@@ -42,4 +43,15 @@ void Maze::setEnd(int x, int y) {
     this->matrix[y][x].isEnd = true;
     print();
     cout << endl;
+}
+
+int Maze::getManhattanDistance(Coordinates from, Coordinates to) {
+    return abs(to.x - from.x) + abs(to.y - from.y);
+}
+
+int Maze::getDistance(Coordinates from, Coordinates to) {
+    int b = pow((to.x - from.x), 2);
+    int c = pow((to.y - from.y), 2);
+
+    return sqrt(b + c);
 }
